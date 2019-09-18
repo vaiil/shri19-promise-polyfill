@@ -1,0 +1,19 @@
+{
+  "name": "shri19-promise-polyfill",
+  "version": "1.0.0",
+  "description": "Promise polyfill",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaiil/shri19-promise-polyfill.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vaiil/shri19-promise-polyfill/issues"
+  },
+  "homepage": "https://github.com/vaiil/shri19-promise-polyfill#readme"
+}
