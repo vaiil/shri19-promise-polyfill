@@ -1,7 +1,9 @@
 'use strict';
 (function (globalObject) {
   function fulfill (value) {
-
+    if (this.state !== 'pending') {
+      return
+    }
     if (value instanceof Promise) {
       const fulfillBind = fulfill.bind(this)
       const rejectBind = reject.bind(this)
@@ -21,6 +23,9 @@
   }
 
   function reject (reason) {
+    if (this.state !== 'pending') {
+      return
+    }
     this.state = 'rejected'
     this.reason = reason
     this.rejectCallbacks.forEach(function (callback) {
