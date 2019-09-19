@@ -97,6 +97,10 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   })
 }
 
+Promise.prototype.catch = function (onRejected) {
+  return this.then(null, onRejected)
+}
+
 Promise.resolve = function (value) {
   return new Promise(function (resolve) {
     resolve(value)
