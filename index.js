@@ -1,5 +1,8 @@
+'use strict'
+
 //TODO make safe constructor
 function Promise (func) {
+
   this.state = 'pending'
   this.value = null
   this.reason = null
