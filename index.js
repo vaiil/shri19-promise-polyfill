@@ -14,8 +14,19 @@ function Promise (func) {
 
 //TODO make it private
 Promise.prototype.fulfill = function (value) {
-  this.state = 'fulfilled'
+  let fulfill = this.fulfill.bind(this)
+  let reject = this.reject.bind(this)
+
+  if (value instanceof Promise) {
+    value.then(
+      fulfill,
+      reject
+    )
+    return
+  }
+
   this.value = value
+  this.state = 'fulfilled'
   this.resolveCallbacks.forEach(function (callback) {
     callback()
   })
@@ -37,32 +48,34 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
 
   //TODO Make it global and bind it to Promise
   const onFulfilledWrapper = function (resolve, reject) {
-    if (typeof onFulfilled === 'function') {
-      try {
-        const value = onFulfilled(self.value)
-        //TODO work when value is Promise
-        resolve(value)
-      } catch (e) {
-        reject(e)
+    setTimeout(function () {
+      if (typeof onFulfilled === 'function') {
+        try {
+          const value = onFulfilled(self.value)
+          resolve(value)
+        } catch (e) {
+          reject(e)
+        }
+      } else {
+        resolve(self.value) // Go to next handler
       }
-    } else {
-      resolve(self.value) // Go to next handler
-    }
+    }, 0)
   }
 
   //TODO Make it global and bind it to Promise
   const onRejectedWrapper = function (resolve, reject) {
-    if (typeof onRejected === 'function') {
-      try {
-        const value = onRejected(self.reason)
-        //TODO work when value is Promise
-        resolve(value)
-      } catch (e) {
-        reject(e)
+    setTimeout(function () {
+      if (typeof onRejected === 'function') {
+        try {
+          const value = onRejected(self.reason)
+          resolve(value)
+        } catch (e) {
+          reject(e)
+        }
+      } else {
+        reject(self.reason) // Go to next handler
       }
-    } else {
-      reject(self.reason) // Go to next handler
-    }
+    }, 0)
   }
 
   return new Promise(function (resolve, reject) {
