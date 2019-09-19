@@ -9,9 +9,7 @@ function Promise (func) {
   let fulfill = this.fulfill.bind(this)
   let reject = this.reject.bind(this)
 
-  setTimeout(function () {
-    func(fulfill, reject)
-  }, 0)
+  func(fulfill, reject)
 }
 
 //TODO make it private
