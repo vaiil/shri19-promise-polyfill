@@ -8,7 +8,7 @@ function Promise (func) {
 
   let fulfill = this.fulfill.bind(this)
   let reject = this.reject.bind(this)
-
+  //TODO wrap it by try/catch
   func(fulfill, reject)
 }
 
@@ -98,7 +98,6 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
 }
 
 Promise.resolve = function (value) {
-  //TODO implement Promise as value
   return new Promise(function (resolve) {
     resolve(value)
   })
