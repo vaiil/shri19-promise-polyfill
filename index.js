@@ -131,7 +131,7 @@
   }
 
   Promise.all = function (iterable) {
-    const promises = [...iterable] // I use ES6 syntax, because it can get iterator
+    const promises = [...iterable] // I use ES6 syntax, because it can get iterable.
     if (promises.length === 0) {
       return Promise.resolve([])
     }
