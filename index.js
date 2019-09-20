@@ -35,6 +35,9 @@
   }
 
   function Promise (func) {
+    if (typeof func !== 'function') {
+      throw TypeError('Promise resolver is not a function')
+    }
     if (!(this instanceof Promise)) {
       return new Promise(func)
     }
