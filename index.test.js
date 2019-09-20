@@ -88,4 +88,14 @@ describe('constructor tests', () => {
       throw 'some error'
     })).rejects.toEqual('some error')
   })
+
+  test('Reject if resolver return the same promise', async () => {
+    const promise = new Promise(resolve => {
+      setTimeout(() => {
+        resolve(promise)
+      }, 0)
+    })
+
+    await expect(promise).rejects.toThrow(TypeError)
+  })
 })
