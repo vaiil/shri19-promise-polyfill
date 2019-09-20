@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/vaiil/shri19-promise-polyfill/issues"
   },
-  "homepage": "https://github.com/vaiil/shri19-promise-polyfill#readme"
+  "homepage": "https://github.com/vaiil/shri19-promise-polyfill#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "@types/jest": "^24.0.18"
+  }
 }
