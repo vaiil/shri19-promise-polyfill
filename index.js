@@ -49,8 +49,11 @@
 
     let fulfillBind = fulfill.bind(this)
     let rejectBind = reject.bind(this)
-    //TODO wrap it by try/catch
-    func(fulfillBind, rejectBind)
+    try {
+      func(fulfillBind, rejectBind)
+    } catch (e) {
+      rejectBind(e)
+    }
   }
 
   Promise.prototype.then = function (onFulfilled, onRejected) {
