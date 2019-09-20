@@ -98,4 +98,41 @@ describe('constructor tests', () => {
 
     await expect(promise).rejects.toThrow(TypeError)
   })
+
+  test('just for fun', () => {
+    // This case isn't checking. It will be pending anyway (in native realisation too).
+    // Just save it as an example of cycling promises
+    const p = {}
+    p.a = new Promise(res => setTimeout(() => res(p.b), 0))
+    p.b = new Promise(res => res(p.a))
+  })
+})
+
+describe('then', () => {
+  test('then chain', async () => {
+    const promise = new Promise(resolve => resolve(120))
+      .then(value => value * 2) // 240
+      .then(value => value + 2) // 242
+      .catch(reason => 0) // will be ignored
+      .then(12345) // Also will be ignored
+      .then(12345, () => {}) // Also will be ignored
+
+    expect(await promise).toEqual(242)
+  })
+
+  test('multiple then on one promise', async () => {
+    let prop = 0
+    let promise = new Promise(resolve => resolve(1))
+    promise.then(value => {prop += value})
+    promise.then(value => {prop += value})
+    promise.then(value => {prop += value})
+    promise.then(value => {prop += value})
+    await promise
+    expect(prop).toEqual(4)
+  })
+
+  test('then return Promise', async () => {
+    const promise = new Promise(resolve => resolve(1)).then(value => new Promise(res => res(value * 10)))
+    expect(await promise).toEqual(10)
+  })
 })
