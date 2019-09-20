@@ -7,6 +7,10 @@
     if (value instanceof Promise) {
       const fulfillBind = fulfill.bind(this)
       const rejectBind = reject.bind(this)
+      if (value === this) {
+        rejectBind(new TypeError('Chaining cycle detected for promise'))
+        return
+      }
       value.then(
         fulfillBind,
         rejectBind
