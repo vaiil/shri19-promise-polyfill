@@ -44,10 +44,10 @@
     this.resolveCallbacks = []
     this.rejectCallbacks = []
 
-    let fulfill = fulfill.bind(this)
-    let reject = reject.bind(this)
+    let fulfillBind = fulfill.bind(this)
+    let rejectBind = reject.bind(this)
     //TODO wrap it by try/catch
-    func(fulfill, reject)
+    func(fulfillBind, rejectBind)
   }
 
   Promise.prototype.then = function (onFulfilled, onRejected) {
@@ -121,4 +121,4 @@
   }
 
   globalObject.Promise = Promise
-}(this))
+}(window))
