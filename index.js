@@ -130,5 +130,31 @@
     })
   }
 
+  Promise.all = function (iterable) {
+    const promises = [...iterable] // I use ES6 syntax, because it can get iterator
+    if (promises.length === 0) {
+      return Promise.resolve([])
+    }
+
+    let notFiredPromises = promises.length
+    const values = new Array(promises.length)
+
+    return new Promise(function (resolve, reject) {
+      promises.forEach(function (promise, index) {
+        promise.then(
+          function (value) {
+            values[index] = value
+            notFiredPromises--
+            if (!notFiredPromises) {
+              resolve()
+            }
+          },
+          function (reason) {
+            reject(reason)
+          })
+      })
+    })
+  }
+
   globalObject.Promise = Promise
 }(window))
