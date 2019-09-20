@@ -63,4 +63,29 @@ describe('constructor tests', () => {
 
     expect(a).toEqual(0)
   })
+
+  test('Only one reject', async () => {
+    let a = 0
+    await new Promise((resolve, reject) => {
+      reject()
+      reject()
+    })
+      .catch(() => {
+        a++
+      })
+
+    expect(a).toEqual(1)
+  })
+
+  test('TypeError when resolver is not function', async () => {
+    expect(() => {
+      new Promise(334)
+    }).toThrow(TypeError)
+  })
+
+  test('Reject if resolver function throw error', async () => {
+    await expect(new Promise(() => {
+      throw 'some error'
+    })).rejects.toEqual('some error')
+  })
 })
