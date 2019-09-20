@@ -35,7 +35,7 @@
   }
 
   function Promise (func) {
-    if (this instanceof Promise) {
+    if (!(this instanceof Promise)) {
       return new Promise(func)
     }
     this.state = 'pending'
