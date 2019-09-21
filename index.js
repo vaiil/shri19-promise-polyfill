@@ -141,17 +141,25 @@
 
     return new Promise(function (resolve, reject) {
       promises.forEach(function (promise, index) {
-        promise.then(
-          function (value) {
-            values[index] = value
-            notFiredPromises--
-            if (!notFiredPromises) {
-              resolve()
-            }
-          },
-          function (reason) {
-            reject(reason)
-          })
+        if (promise instanceof Promise) {
+          promise.then(
+            function (value) {
+              values[index] = value
+              notFiredPromises--
+              if (!notFiredPromises) {
+                resolve(values)
+              }
+            },
+            function (reason) {
+              reject(reason)
+            })
+        } else {
+          values[index] = promise
+          notFiredPromises--
+          if (!notFiredPromises) {
+            resolve(values)
+          }
+        }
       })
     })
   }
