@@ -118,6 +118,17 @@
     return this.then(null, onRejected)
   }
 
+  // It's very interesting method.
+  // onFinally doesn't receive any arguments
+  // And it passes Promise state and value/reason to return Promise
+  // But if onFinally returns Promise (e.g. P), method resolves it.
+  // And if P is rejected, it rejects return Promise with the same reason
+  // (or if onFinally throws error)
+  // But if P is resolved, its value will be ignored
+  Promise.prototype.finally = function (onFinally) {
+    //TODO make it
+  }
+
   Promise.resolve = function (value) {
     return new Promise(function (resolve) {
       resolve(value)
