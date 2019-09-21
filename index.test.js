@@ -179,3 +179,51 @@ describe('static methods', () => {
     expect(Promise.resolve(Promise.reject(5))).rejects.toEqual(5)
   })
 })
+
+describe('Bonus', () => {
+  test('Promise finally', async () => {
+    expect(
+      await Promise
+        .resolve(1)
+        .finally(
+          () => Promise.resolve(2)
+        )
+    ).toEqual(1)
+
+    await expect(
+      Promise
+        .resolve(1)
+        .finally(() => Promise.reject('2'))
+    ).rejects.toEqual('2')
+
+    await expect(
+      Promise
+        .reject('err')
+        .finally(() => Promise.resolve('2'))
+    ).rejects.toEqual('err')
+
+    await expect(
+      Promise
+        .reject('err')
+        .finally(() => Promise.reject('2'))
+    ).rejects.toEqual('2')
+
+    await expect(
+      Promise
+        .reject('err')
+        .finally(() => {
+          throw '2'
+        })
+    ).rejects.toEqual('2')
+  })
+
+  test('Promise done', async () => {
+    Promise.resolve(5).done(value => expect(value).toEqual(5))
+    Promise.reject(5).done(null, reason => expect(reason).toEqual(5))
+
+    //This test doesn't do anything, but in browser you can see that it throws error.
+    // Promise.reject(5).done(null, _ => {
+    //   throw 'err'
+    // })
+  })
+})
