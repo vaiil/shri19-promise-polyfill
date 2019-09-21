@@ -144,6 +144,17 @@
       })
   }
 
+  // As I understand, it should work in this way:
+  // It doesn't returns promise, handle promise like then
+  // and throw error (if there are error in handlers)
+  // but this error cannot be caught, because it is async
+  // ...it's strange
+  Promise.prototype.done = function (onFulfilled, onRejected) {
+    this.then(onFulfilled, onRejected).catch(function (reason) {
+      throw reason
+    })
+  }
+
   Promise.resolve = function (value) {
     return new Promise(function (resolve) {
       resolve(value)
