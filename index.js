@@ -130,7 +130,7 @@
   // (or if onFinally throws error)
   // But if P is resolved, its value will be ignored
   Promise.prototype.finally = function (onFinally) {
-    this.then(
+    return this.then(
       function (value) {
         return Promise.resolve(onFinally())
           .then(function () {
