@@ -162,4 +162,14 @@ describe('static methods', () => {
       )
     ).rejects.toEqual('error')
   })
+
+  test('Promise.race', async () => {
+    const p1 = new Promise(function (resolve) {
+      setTimeout(resolve, 500, 'one')
+    })
+    const p2 = new Promise(function (resolve) {
+      setTimeout(resolve, 100, 'two')
+    })
+    expect(await Promise.race([p1, p2])).toEqual('two')
+  })
 })

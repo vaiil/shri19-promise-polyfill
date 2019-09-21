@@ -154,12 +154,22 @@
               reject(reason)
             })
         } else {
+          //TODO remove code duplication
           values[index] = promise
           notFiredPromises--
           if (!notFiredPromises) {
             resolve(values)
           }
         }
+      })
+    })
+  }
+
+  Promise.race = function (iterable) {
+    const promises = [...iterable] // I use ES6 syntax, because it can get iterable.
+    return new Promise(function (resolve, reject) {
+      promises.forEach(function (promise) {
+        promise.then(resolve, reject)
       })
     })
   }
