@@ -130,6 +130,7 @@
   // (or if onFinally throws error)
   // But if P is resolved, its value will be ignored
   Promise.prototype.finally = function (onFinally) {
+
     return this.then(
       function (value) {
         return Promise.resolve(onFinally())
@@ -149,9 +150,12 @@
   // and throw error (if there are error in handlers)
   // but this error cannot be caught, because it is async
   // ...it's strange
+  // ...maybe I'm wrong
   Promise.prototype.done = function (onFulfilled, onRejected) {
     this.then(onFulfilled, onRejected).catch(function (reason) {
-      throw reason
+      setTimeout(function () { // We need to use it to throw error (otherwise it just returns rejected promise)
+        throw reason
+      }, 0)
     })
   }
 
