@@ -96,7 +96,7 @@ describe('constructor tests', () => {
       }, 0)
     })
 
-    await expect(promise).rejects.toThrow(TypeError)
+    await expect(promise).rejects.toBeInstanceOf(TypeError)
   })
 
   test('just for fun', () => {
@@ -113,7 +113,7 @@ describe('then', () => {
     const promise = new Promise(resolve => resolve(120))
       .then(value => value * 2) // 240
       .then(value => value + 2) // 242
-      .catch(reason => 0) // will be ignored
+      .catch(() => 0) // will be ignored
       .then(12345) // Also will be ignored
       .then(12345, () => {}) // Also will be ignored
 
@@ -134,5 +134,32 @@ describe('then', () => {
   test('then return Promise', async () => {
     const promise = new Promise(resolve => resolve(1)).then(value => new Promise(res => res(value * 10)))
     expect(await promise).toEqual(10)
+  })
+})
+
+describe('static methods', () => {
+  test('Promise.all', async () => {
+    const range = [1, 2, 3, 4, 5, 6, 7]
+    const promises = range
+      .map(
+        i => new Promise(
+          resolve => {
+            setTimeout(() => resolve(i * 10), Math.random() * 100)
+          }
+        )
+      )
+
+    expect(await Promise.all(promises))
+      .toEqual(range.map(i => i * 10))
+
+    await expect(
+      Promise.all(
+        promises.concat(
+          new Promise(
+            (_, reject) => reject('error')
+          )
+        )
+      )
+    ).rejects.toEqual('error')
   })
 })
