@@ -172,4 +172,9 @@ describe('static methods', () => {
     })
     expect(await Promise.race([p1, p2])).toEqual('two')
   })
+
+  test('Promise resolve/reject', () => {
+    expect(Promise.resolve(Promise.resolve(5))).resolves.toEqual(5)
+    expect(Promise.resolve(Promise.reject(5))).rejects.toEqual(5)
+  })
 })
