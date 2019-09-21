@@ -1,5 +1,6 @@
 global.window = global
 const NativePromise = global.Promise
+global.Promise = undefined // Break default promises
 require('./index')
 
 describe('correction init', () => {

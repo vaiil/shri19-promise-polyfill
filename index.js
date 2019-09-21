@@ -1,5 +1,9 @@
 'use strict';
 (function (globalObject) {
+  if (typeof globalObject.Promise === 'function') {
+    return // Browser supports pomises
+  }
+
   function fulfill (value) {
     if (this.state !== 'pending') {
       return
